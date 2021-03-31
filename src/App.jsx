@@ -1,6 +1,6 @@
 import React, { createRef, useRef, useState } from 'react'
 import logo from './logo.svg'
-import {servers} from './service/main.service';
+import {servers, firestore} from './service/main.service';
 import './App.css'
 
 function App() {
@@ -14,7 +14,8 @@ function App() {
     },
     answerButton: {
       disabled: true
-    }
+    },
+    callInputId: '',
   })
 
   const webcamVideoRef = createRef();
@@ -46,6 +47,7 @@ function App() {
     webcamVideoRef.current.srcObject = localStream;
     remoteVideoRef.current.srcObject = remoteStream;
 
+
     // callButton.disabled = false;
     // answerButton.disabled = false;
     // webcamButton.disabled = true;
@@ -57,6 +59,56 @@ function App() {
       webcamButton: {disabled: true}
     });
   }
+
+  // create call offer button click 
+  const createCallOnClick = async () => {
+    // Reference Firestore collection
+    const callDoc = firestore.collection('calls').doc();
+    const offerCandidates = callDoc.collection('offerCandidates');
+    const answerCandidates = callDoc.collection('answerCandidates');
+
+    // setting the random call id to input field
+    setGlobalState({
+      ...globalState,
+      callInputId: callDoc.id
+    })
+
+    // Get candidates for caller, save to db
+    pc.onicecandidate = event => {
+      event.candidate && offerCandidates.add(event.candidate.toJSON());
+    }
+
+    // create offer
+    const offerDescription = await pc.createOffer();
+    await pc.setLocalDescription(offerDescription);
+
+    const offer = {
+      sdp: offerDescription.sdp,
+      type: offerDescription.type
+    }
+
+    await callDoc.set({offer});
+
+    // listen for remote answer
+    callDoc.onSnapshot((snapshot) => {
+      const data = snapshot.data;
+      if(!pc.currentRemoteDescription && data?.answer){
+        const answerDescription = new RTCSessionDescription(data.answer);
+        pc.setRemoteDescription(answerDescription);
+      }
+    });
+
+    // when answered, add candidate to peer connection
+    answerCandidates.onSnapshot(snapshot => {
+      snapshot.docChanges().forEach((change) => {
+        if(change.type === 'added'){
+          const candidate = new RTCIceCandidate(change.doc.data());
+          pc.addIceCandidate(candidate);
+        }
+      })
+    })
+  }
+
 
   return (
     <div className="main-container">
@@ -90,7 +142,7 @@ function App() {
       <h2>3. Join a Call</h2>
       <p>Answer the call from a different browser window or device</p>
 
-      <input id="callInput" />
+      <input id="callInput" value={globalState.callInputId} />
       <button 
         id="answerButton" 
         disabled={globalState.answerButton.disabled}
