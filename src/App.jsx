@@ -2,8 +2,14 @@ import React, { createRef, useEffect, useState } from 'react'
 import logo from './logo.svg'
 import {servers, firestore} from './service/main.service';
 import './App.css'
+import "tailwindcss/tailwind.css"
 
 function App() {
+  const webcamVideoRef = createRef();
+  const remoteVideoRef = createRef();
+  let localStream = null;
+  let remoteStream = null;
+
   const [count, setCount] = useState(0)
   const [globalState, setGlobalState] = useState({
     webcamButton: {
@@ -25,12 +31,6 @@ function App() {
     setPc(new RTCPeerConnection(servers));
   }, [])
 
-  const webcamVideoRef = createRef();
-  const remoteVideoRef = createRef();
-
-  let localStream = null;
-  let remoteStream = null;
-
   const onWebcamStartClick = async () => {
     localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
     remoteStream = new MediaStream();
@@ -49,11 +49,6 @@ function App() {
 
     webcamVideoRef.current.srcObject = localStream;
     remoteVideoRef.current.srcObject = remoteStream;
-
-
-    // callButton.disabled = false;
-    // answerButton.disabled = false;
-    // webcamButton.disabled = true;
 
     setGlobalState({
       ...globalState,
@@ -162,16 +157,16 @@ function App() {
   }
 
   return (
-    <div className="main-container">
-      <div className="video-container">
-        <span>
+    <div className="main-container p-8">
+      <div className="video-container justify-between md:flex">
+        <div className="">
           <h3>Local Stream</h3>
           <WebcamVideo ref={webcamVideoRef}/>
-        </span>
-        <span>
+        </div>
+        <div className="">
           <h3>Remote Stream</h3>
           <RemoteVideo ref={remoteVideoRef} />
-        </span>
+        </div>
       </div>
       
       <button 
@@ -211,11 +206,11 @@ function App() {
 }
 
 const WebcamVideo = React.forwardRef((props, ref) => (
-  <video ref={ref} id="webcamVideo" autoPlay playsInline></video>
+  <video className="bg-black w-600 h-full sm:w-full" ref={ref} id="webcamVideo" autoPlay playsInline></video>
 ))
 
 const RemoteVideo = React.forwardRef((props, ref) => (
-  <video ref={ref} id="remoteVideo" autoPlay playsInline></video>
+  <video className="bg-black w-600 h-full sm:w-full" ref={ref} id="remoteVideo" autoPlay playsInline></video>
 ))
 
 export default App
