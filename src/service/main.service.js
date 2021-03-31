@@ -7,9 +7,9 @@ const firebaseConfig = firebaseAuth;
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
-const firestore = firebase.firestore();
+export const firestore = firebase.firestore();
 
-const servers = {
+export const servers = {
   iceServers: [
     {
       urls: ['stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302'],
@@ -17,10 +17,3 @@ const servers = {
   ],
   iceCandidatePoolSize: 10,
 };
-
-// Global State
-// this manages all the peer-to-peer connection
-// manages the ice-candidates by using stun servers declared above
-const pc = new RTCPeerConnection(servers);
-let localStream = null;
-let remoteStream = null;
