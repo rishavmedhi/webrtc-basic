@@ -109,6 +109,43 @@ function App() {
     })
   }
 
+  // answer the call feature
+  const answerButtonOnClick = async () => {
+    const callId = globalState.callInputId;
+    const callDoc = firestore.collection('calls').doc(callId);
+    const answerCandidates = callDoc.collection('answerCandidates');
+    const offerCandidates = callDoc.collection('offerCandidates'); 
+
+    pc.onicecandidate = (event) => {
+      event.candidate && answerCandidates.add(event.candidate.toJSON());
+    }
+
+    const callData = (await callDoc.get()).data();
+
+    const offerDescription = callData.offer;
+    await pc.setRemoteDescription(new RTCSessionDescription(offerDescription));
+
+    const answerDescription = await pc.createAnswer();
+    await pc.setLocalDescription(answerDescription);
+
+    const answer = {
+      type: answerDescription.type,
+      sdp: answerDescription.sdp,
+    }
+
+    await callDoc.update({ answer });
+
+    offerCandidates.onSnapshot((snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        console.log(change);
+        if(change.type === 'added'){
+          let data = change.doc.data();
+          pc.addIceCandidate(new RTCIceCandidate(data));
+        }
+      });
+    })
+  }
+
 
   return (
     <div className="main-container">
@@ -135,6 +172,7 @@ function App() {
       <button 
         id="callButton" 
         disabled={globalState.callButton.disabled}
+        onClick={createCallOnClick}
       >
         Create Call (offer)
       </button>
@@ -146,6 +184,7 @@ function App() {
       <button 
         id="answerButton" 
         disabled={globalState.answerButton.disabled}
+        onClick={answerButtonOnClick}
       >
         Answer
       </button>
