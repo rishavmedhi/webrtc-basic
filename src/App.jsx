@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { createRef, useRef, useState } from 'react'
 import logo from './logo.svg'
 import {servers} from './service/main.service';
 import './App.css'
@@ -17,8 +17,8 @@ function App() {
     }
   })
 
-  const webcamVideoRef = useRef();
-  const remoteVideoRef = useRef();
+  const webcamVideoRef = createRef();
+  const remoteVideoRef = createRef();
 
   // Global State
   // this manages all the peer-to-peer connection
@@ -43,8 +43,8 @@ function App() {
       });
     };
 
-    webcamVideoRef.srcObject = localStream;
-    remoteVideoRef.srcObject = remoteStream;
+    webcamVideoRef.current.srcObject = localStream;
+    remoteVideoRef.current.srcObject = remoteStream;
 
     // callButton.disabled = false;
     // answerButton.disabled = false;
@@ -63,11 +63,11 @@ function App() {
       <div className="video-container">
         <span>
           <h3>Local Stream</h3>
-          <video ref={webcamVideoRef} id="webcamVideo" autoPlay playsInline></video>
+          <WebcamVideo ref={webcamVideoRef}/>
         </span>
         <span>
           <h3>Remote Stream</h3>
-          <video ref={remoteVideoRef} id="remoteVideo" autoPlay playsInline></video>
+          <RemoteVideo ref={remoteVideoRef} />
         </span>
       </div>
       
@@ -104,5 +104,13 @@ function App() {
     </div>
   )
 }
+
+const WebcamVideo = React.forwardRef((props, ref) => (
+  <video ref={ref} id="webcamVideo" autoPlay playsInline></video>
+))
+
+const RemoteVideo = React.forwardRef((props, ref) => (
+  <video ref={ref} id="remoteVideo" autoPlay playsInline></video>
+))
 
 export default App
