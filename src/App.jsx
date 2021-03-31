@@ -1,4 +1,4 @@
-import React, { createRef, useRef, useState } from 'react'
+import React, { createRef, useEffect, useState } from 'react'
 import logo from './logo.svg'
 import {servers, firestore} from './service/main.service';
 import './App.css'
@@ -17,14 +17,17 @@ function App() {
     },
     callInputId: '',
   })
+  const [pc, setPc] = useState('');
+
+  useEffect(() => {
+    // this manages all the peer-to-peer connection
+    // manages the ice-candidates by using stun servers declared above
+    setPc(new RTCPeerConnection(servers));
+  }, [])
 
   const webcamVideoRef = createRef();
   const remoteVideoRef = createRef();
 
-  // Global State
-  // this manages all the peer-to-peer connection
-  // manages the ice-candidates by using stun servers declared above
-  const pc = new RTCPeerConnection(servers);
   let localStream = null;
   let remoteStream = null;
 
@@ -91,8 +94,9 @@ function App() {
 
     // listen for remote answer
     callDoc.onSnapshot((snapshot) => {
-      const data = snapshot.data;
+      const data = snapshot.data();
       if(!pc.currentRemoteDescription && data?.answer){
+        console.log('before RTCSessionDescription');
         const answerDescription = new RTCSessionDescription(data.answer);
         pc.setRemoteDescription(answerDescription);
       }
@@ -103,7 +107,9 @@ function App() {
       snapshot.docChanges().forEach((change) => {
         if(change.type === 'added'){
           const candidate = new RTCIceCandidate(change.doc.data());
-          pc.addIceCandidate(candidate);
+          pc.addIceCandidate(candidate).catch(e => {
+            console.error(e);
+          });
         }
       })
     })
@@ -140,12 +146,20 @@ function App() {
         console.log(change);
         if(change.type === 'added'){
           let data = change.doc.data();
-          pc.addIceCandidate(new RTCIceCandidate(data));
+          pc.addIceCandidate(new RTCIceCandidate(data)).catch(e => {
+            console.error(e.name);
+          });
         }
       });
     })
   }
 
+  const onCallIdInput = (event) => {
+    setGlobalState({
+      ...globalState,
+      callInputId: event.target.value
+    })
+  }
 
   return (
     <div className="main-container">
@@ -180,7 +194,7 @@ function App() {
       <h2>3. Join a Call</h2>
       <p>Answer the call from a different browser window or device</p>
 
-      <input id="callInput" value={globalState.callInputId} />
+      <input id="callInput" value={globalState.callInputId} onChange={onCallIdInput} />
       <button 
         id="answerButton" 
         disabled={globalState.answerButton.disabled}
