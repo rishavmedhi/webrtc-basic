@@ -157,14 +157,15 @@ function App() {
   }
 
   return (
-    <div className="main-container p-8">
-      <div className="video-container justify-between md:flex">
+    <div className="main-container h-screen p-8 bg-indigo-200">
+      <h1 className="text-2xl text-center">Basic WebRTC Platform</h1>
+      <div className="video-container justify-between mt-4 md:flex">
         <div className="">
-          <h3>Local Stream</h3>
+          <h3 className="text-center">Local Stream</h3>
           <WebcamVideo ref={webcamVideoRef}/>
         </div>
         <div className="md:pt-0 sm:pt-4">
-          <h3>Remote Stream</h3>
+          <h3 className="text-center">Remote Stream</h3>
           <RemoteVideo ref={remoteVideoRef} />
         </div>
       </div>
