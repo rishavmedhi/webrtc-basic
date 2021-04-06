@@ -1,8 +1,6 @@
 import React, { createRef, useEffect, useState } from 'react'
 import logo from './logo.svg'
 import {servers, firestore} from './service/main.service';
-import './App.css'
-import "tailwindcss/tailwind.css"
 
 function App() {
   const webcamVideoRef = createRef();
