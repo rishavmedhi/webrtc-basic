@@ -1,13 +1,17 @@
 {
   "name": "webrtc-basic",
   "version": "0.0.0",
+  "homepage": ".",
   "scripts": {
     "dev": "vite",
+    "predeploy": "vite build --base=/webrtc-basic/",
+    "deploy": "gh-pages -d dist",
     "build": "vite build",
     "serve": "vite preview"
   },
   "dependencies": {
     "firebase": "^8.3.1",
+    "gh-pages": "^3.1.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0"
   },
