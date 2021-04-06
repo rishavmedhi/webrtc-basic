@@ -170,7 +170,7 @@ function App() {
       
       <div className="control-container m-4 text-center space-y-6">
         <button
-          className="bg-purple-600 pt-2 pb-2 pl-4 pr-4 text-white rounded font-bold" 
+          className="bg-purple-600 pt-2 pb-2 pl-4 pr-4 text-white rounded font-bold disabled:opacity-50 disabled:cursor-not-allowed" 
           id="webcamButton" 
           onClick={onWebcamStartClick}
           disabled={globalState.webcamButton.disabled}
@@ -181,7 +181,7 @@ function App() {
         <div>
           <h2>2. Create a new Call</h2>
           <button 
-            className="bg-purple-600 pt-2 pb-2 pl-4 pr-4 text-white rounded font-bold" 
+            className="bg-purple-600 pt-2 pb-2 pl-4 pr-4 text-white rounded font-bold disabled:opacity-50 disabled:cursor-not-allowed" 
             id="callButton" 
             disabled={globalState.callButton.disabled}
             onClick={createCallOnClick}
@@ -194,9 +194,9 @@ function App() {
           <h2>3. Join a Call</h2>
           <p>Answer the call from a different browser window or device</p>
 
-          <input id="callInput" value={globalState.callInputId} onChange={onCallIdInput} className="mr-4 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"/>
+          <input id="callInput" value={globalState.callInputId} onChange={onCallIdInput} className="mr-4 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent disabled:opacity-50"/>
           <button
-            className="bg-purple-600 pt-2 pb-2 pl-4 pr-4 text-white rounded font-bold" 
+            className="bg-purple-600 pt-2 pb-2 pl-4 pr-4 text-white rounded font-bold disabled:opacity-50 disabled:cursor-not-allowed" 
             id="answerButton" 
             disabled={globalState.answerButton.disabled}
             onClick={answerButtonOnClick} 
@@ -210,7 +210,7 @@ function App() {
 
           <button 
             id="hangupButton"
-            className="bg-purple-600 pt-2 pb-2 pl-4 pr-4 text-white rounded font-bold" 
+            className="bg-purple-600 pt-2 pb-2 pl-4 pr-4 text-white rounded font-bold disabled:opacity-50 disabled:cursor-not-allowed"
             disabled>
               Hangup
           </button>
