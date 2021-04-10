@@ -188,13 +188,21 @@ function App() {
           >
             Create Call (offer)
           </button>
+          <p>Clicking this will create offer code below</p>
         </div>
 
         <div>
           <h2>3. Join a Call</h2>
           <p>Answer the call from a different browser window or device</p>
 
-          <input id="callInput" value={globalState.callInputId} onChange={onCallIdInput} className="mr-4 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent disabled:opacity-50"/>
+          <input 
+            id="callInput" 
+            value={globalState.callInputId} 
+            onChange={onCallIdInput} 
+            className="mr-4 border border-gray-300 pt-2 pb-2 pl-2 pr-2 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent disabled:opacity-50"
+            style={{width:'300px'}}
+            placeholder="offer code to be pasted here"
+            />
           <button
             className="bg-purple-600 pt-2 pb-2 pl-4 pr-4 text-white rounded font-bold disabled:opacity-50 disabled:cursor-not-allowed" 
             id="answerButton" 
