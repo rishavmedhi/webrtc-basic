@@ -155,7 +155,7 @@ function App() {
   }
 
   return (
-    <div className="main-container h-screen p-8 bg-indigo-200">
+    <div className="main-container p-8 bg-indigo-200 md:h-screen">
       <h1 className="text-2xl text-center">Basic WebRTC Platform</h1>
       <div className="video-container justify-between mt-4 md:flex">
         <div className="">
@@ -221,11 +221,11 @@ function App() {
 }
 
 const WebcamVideo = React.forwardRef((props, ref) => (
-  <video className="bg-black w-600 h-auto sm:w-full" ref={ref} id="webcamVideo" autoPlay playsInline></video>
+  <video className="bg-black w-500 h-auto sm:w-full" ref={ref} id="webcamVideo" autoPlay playsInline></video>
 ))
 
 const RemoteVideo = React.forwardRef((props, ref) => (
-  <video className="bg-black w-600 h-auto sm:w-full" ref={ref} id="remoteVideo" autoPlay playsInline></video>
+  <video className="bg-black w-500 h-auto sm:w-full" ref={ref} id="remoteVideo" autoPlay playsInline></video>
 ))
 
 export default App
