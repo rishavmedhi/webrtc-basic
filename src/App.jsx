@@ -19,6 +19,9 @@ function App() {
     answerButton: {
       disabled: true
     },
+    hangupButton: {
+      disabled: true
+    },
     callInputId: '',
   })
   const [pc, setPc] = useState('');
@@ -52,7 +55,8 @@ function App() {
       ...globalState,
       callButton: {disabled: false},
       answerButton: {disabled: false},
-      webcamButton: {disabled: true}
+      webcamButton: {disabled: true},
+      hangupButton: {disabled: false}
     });
   }
 
@@ -154,6 +158,10 @@ function App() {
     })
   }
 
+  const hangupButtonOnClick = () => {
+    window.location.reload();
+  }
+
   return (
     <div className="main-container p-8 bg-indigo-200 md:h-screen">
       <h1 className="text-2xl text-center">Basic WebRTC Platform</h1>
@@ -219,7 +227,9 @@ function App() {
           <button 
             id="hangupButton"
             className="bg-purple-600 pt-2 pb-2 pl-4 pr-4 text-white rounded font-bold disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled>
+            disabled={globalState.hangupButton.disabled}
+            onClick={hangupButtonOnClick}
+          >
               Hangup
           </button>
         </div>
