@@ -163,7 +163,7 @@ function App() {
   }
 
   return (
-    <div className="main-container p-8 bg-indigo-200 md:h-screen">
+    <div className="main-container absolute p-8 bg-indigo-200 md:h-full sm:h-auto" style={{width: '100%'}}>
       <h1 className="text-2xl text-center">Basic WebRTC Platform</h1>
       <div className="video-container justify-between mt-4 md:flex">
         <div className="">
