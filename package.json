@@ -1,0 +1,25 @@
+{
+  "name": "webrtc-basic",
+  "version": "0.0.0",
+  "homepage": ".",
+  "scripts": {
+    "dev": "vite",
+    "predeploy": "vite build --base=/webrtc-basic/",
+    "deploy": "gh-pages -d dist",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "firebase": "^8.3.1",
+    "gh-pages": "^3.1.0",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react-refresh": "^1.3.1",
+    "autoprefixer": "^10.2.5",
+    "postcss": "^8.2.9",
+    "tailwindcss": "^2.0.4",
+    "vite": "^2.1.0"
+  }
+}
