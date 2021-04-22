@@ -1,5 +1,6 @@
 import React, { createRef, useEffect, useState } from 'react'
 import logo from './logo.svg'
+import GithubIcon from './assets/GithubIcon.svg';
 import {servers, firestore} from './service/main.service';
 
 function App() {
@@ -163,7 +164,7 @@ function App() {
   }
 
   return (
-    <div className="main-container absolute p-8 bg-indigo-200 md:h-full sm:h-auto" style={{width: '100%'}}>
+    <div className="main-container overflow-y-auto p-8 absolute bg-indigo-200 md:h-full sm:h-auto" style={{width: '100%'}}>
       <h1 className="text-2xl text-center">Basic WebRTC Platform</h1>
       <div className="video-container justify-between mt-4 md:flex">
         <div className="">
@@ -234,6 +235,15 @@ function App() {
           </button>
         </div>
       </div>
+
+      <footer className="text-center p-4 space-y-4">
+        <a className="align-middle text-purple-600 font-medium" href="https://github.com/rishavmedhi/webrtc-basic">
+          <img className="inline" src={GithubIcon} height="20" width="20" /> <div className="inline align-middle">Github</div>
+        </a>
+        <div className="">
+          Inspired by <a className="text-purple-600 font-medium" href="https://www.youtube.com/watch?v=WmR9IMUD_CY">Fireship.io</a>
+        </div>  
+      </footer>
     </div>
   )
 }

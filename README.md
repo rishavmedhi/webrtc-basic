@@ -1,15 +1,15 @@
 # Basic WebRTC Implementation
 
-This is basic implementation of webRTC concept which you can run by opening this website in two browser windows and then getting on a video call
+This is a basic implementation of webRTC concept which you can run by opening this [website](https://rishavmedhi.github.io/webrtc-basic/) in two browser windows on two different devices and get connected on a video call
 
-Inspired by the tutorial at [fireship.io](https://www.youtube.com/channel/UCsBjURrPoezykLs9EqgamOA) youtube channel.
+Inspired by the tutorial by [fireship.io](https://www.youtube.com/channel/UCsBjURrPoezykLs9EqgamOA) which I stumbled upon on youtube.
 
 Referred the following links for the tutorial:
 1. [Youtube Video](https://www.youtube.com/watch?v=WmR9IMUD_CY)
 2. [Tutorial Source Code](https://github.com/fireship-io/webrtc-firebase-demo)
 3. [Tutorial Doc](https://fireship.io/lessons/webrtc-firebase-video-chat/)
 
-If you are interested more in learning about the architecture and working of the webRTC setup, please visit the above links. Fireship.io has done an awesome job in explaining how it works.
+If you are interested in learning more about the architecture and working of the webRTC setup, please visit the above links. Fireship.io has done an awesome job in explaining how it works.
 
 ## How my project is different from the tutorial?
 
@@ -56,9 +56,9 @@ If you are interested more in learning about the architecture and working of the
 ## Problems and Issues
 Although it is not a finished product and doesn't aim to be one, it is just a prototype and basic implementation of the concept as an experiment.
 
-The issues are:  
+The issues with the implementation are:  
 
-1. Noise reveberating from both local stream and remote stream which causes unwanted echoes
-2. Connection is not established under certain network connections.  
+1. Unwanted infinite loop echoes as the sound from both local stream and remote stream gets transmitted to and fro.
+2. Video call connection is not established under certain network connections.  
 It is found to work best on current home network and on connecting to two different devices (desktop/mobile)
-3. UI issues: adjusting screen sizes of different devices. Currently the screen might elongate if it is a mobile device.
+3. UI issues: adjusting screen sizes of different devices. Currently the local/remote strean screen might elongate if it is a mobile device.
